@@ -17,11 +17,6 @@ df = df.dropna()
 
 
 
-#counts of residents
-x = df['Residence_type'].value_counts()
-x = x.reset_index()
-print(x)
-
 #filtering data and removing data with Unknow value types in dataframe
 df = df[df['smoking_status'] != 'Unknown']
 x = df['smoking_status'].value_counts()
@@ -43,6 +38,16 @@ print(df.groupby('stroke').size())
 df_avg_glucose_level= df.groupby(['stroke'],as_index=False).avg_glucose_level.mean()
 print("Average glucose level based on stroke and no stroke")
 print(df_avg_glucose_level)
+
+#Median glucose level based on stroke
+df_median_glucose_level= df.groupby(['stroke'],as_index=False).avg_glucose_level.median()
+print("Median glucose level based on stroke and no stroke")
+print(df_median_glucose_level)
+
+#standard deviation based on stroke:
+df_sd_glucose_level= df.groupby(['stroke'],as_index=False).avg_glucose_level.describe()
+print("sd glucose level based on stroke and no stroke")
+print(df_sd_glucose_level)
 
 #stroke count for males and females
 df_test=df[df['stroke']==0].groupby(['gender','stroke']).size().reset_index(name='count')
@@ -86,10 +91,30 @@ df_avg_bmi_level= df.groupby(['stroke'],as_index=False).bmi.mean()
 print("Average bmi based on stroke and no stroke")
 print(df_avg_bmi_level)
 
+#Median bmi based on stroke
+df_median_bmi_level= df.groupby(['stroke'],as_index=False).bmi.median()
+print("bmi median based on stroke and no stroke")
+print(df_median_bmi_level)
+
+#standard deviation based on stroke:
+df_sd_bmi_level= df.groupby(['stroke'],as_index=False).bmi.describe()
+print("sd bmi based on stroke and no stroke")
+print(df_sd_bmi_level)
+
 #age based on stroke
 df_avg_age= df.groupby(['stroke'],as_index=False).age.mean()
 print("Average age based on stroke and no stroke")
 print(df_avg_age)
+
+#Median bmi based on stroke
+df_median_age= df.groupby(['stroke'],as_index=False).age.median()
+print("age median based on stroke and no stroke")
+print(df_median_age)
+
+#standard deviation based on stroke:
+df_sd_age= df.groupby(['stroke'],as_index=False).age.describe()
+print("sd bmi based on stroke and no stroke")
+print(df_sd_age)
 
 #stroke based on residency
 df_test=df[df['stroke']==0].groupby(['Residence_type','stroke']).size().reset_index(name='count')
@@ -141,5 +166,10 @@ print("Test set score: {:.2f}".format(lr.score(X_test, y_test)))
 
 # first example: a small fruit with mass 15g, color_score = 5.5, width 4.3 cm, height 5.5 cm
 testFruit = pd.DataFrame([[101, 1, 1, 202.21,1,2,1,2,1,36.6]], columns=['age', 'hypertension', 'heart_disease','avg_glucose_level','gender','work_type','ever_married','Residence_type','smoking_status','bmi'])
+fruit_prediction = lr.predict(testFruit)
+print(fruit_prediction)
+
+# second example: a small fruit with mass 15g, color_score = 5.5, width 4.3 cm, height 5.5 cm
+testFruit = pd.DataFrame([[75, 1, 1, 212.21,1,2,1,2,1,55]], columns=['age', 'hypertension', 'heart_disease','avg_glucose_level','gender','work_type','ever_married','Residence_type','smoking_status','bmi'])
 fruit_prediction = lr.predict(testFruit)
 print(fruit_prediction)
